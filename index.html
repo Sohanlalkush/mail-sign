@@ -107,6 +107,7 @@
 
         const fullPhone = ext ? `${phone} Ext. ${ext}` : phone;
         const waURL = `https://wa.me/${whatsapp.replace(/\D/g, '')}?text=Hi%20${encodeURIComponent(waName)}`;
+        const waCURL = `https://wa.me/${whatsapp.replace(/\D/g, '')}`;
 
         const signatureHTML = `
 <table style="width:100%; font-family:Calibri, sans-serif; font-size:11pt; color:rgb(0, 0, 0); border-collapse:collapse">
@@ -160,7 +161,7 @@
         <a style="text-decoration:none" target="_blank" href="https://in.linkedin.com/company/genedrift">
           <img style="vertical-align:middle" height="22" width="26" alt="LinkedIn" src="https://cdn.jsdelivr.net/gh/Sohanlalkush/mail-sign/img/Linikediin.png">
         </a>
-        <a style="text-decoration:none" target="_blank" href="${waURL}">
+        <a style="text-decoration:none" target="_blank" href="${waCURL}">
           <img style="vertical-align:middle" height="22" width="26" alt="WhatsApp" src="https://cdn.jsdelivr.net/gh/Sohanlalkush/mail-sign/img/whatsaap.png">
         </a>
         <a style="text-decoration:none" target="_blank" href="https://www.facebook.com/genedrift">
@@ -169,7 +170,8 @@
       </td>
     </tr>
   </tbody>
-</table>`;
+</table>
+<hr/>`;
 
         outputHTML.value = signatureHTML;
         outputContainer.style.display = "block";
