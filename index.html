@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Signature Generator</title>
+    <style>
+        body {
+            font-family: Calibri, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            background: #0078D7;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #005cbf;
+        }
+
+        #outputContainer {
+            margin-top: 40px;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        textarea {
+            width: 100%;
+            height: 500px;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Genedrift Signature Generator</h2>
+<form id="signatureForm">
+    <label>Signature Name: <input type="text" id="sigName" required></label>
+    <label>Title/Designation: <input type="text" id="designation" required></label>
+    <label>Email Address: <input type="email" id="email" required></label>
+    <label>Phone: <input type="text" id="phone" required></label>
+    <label>Ext: <input type="text" id="ext"></label>
+    <label>WhatsApp: <input type="text" id="whatsapp" required></label>
+    <label>First Name for WhatsApp Message: <input type="text" id="waName" required></label>
+    <label>LinkedIn Profile Name: <input type="text" id="linkedinName" required></label>
+    <label>LinkedIn Profile Link: <input type="text" id="linkedinLink" required></label>
+
+    <button type="submit">Generate Signature</button>
+</form>
+
+<div id="outputContainer" style="display:none;">
+    <h3>Your Email Signature Code:</h3>
+    <textarea id="outputHTML" readonly></textarea>
+    <button onclick="copySignature()">Copy Signature Code</button>
+</div>
+
+<script>
+    const form = document.getElementById("signatureForm");
+    const outputContainer = document.getElementById("outputContainer");
+    const outputHTML = document.getElementById("outputHTML");
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const sigName = document.getElementById("sigName").value;
+        const designation = document.getElementById("designation").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const ext = document.getElementById("ext").value;
+        const whatsapp = document.getElementById("whatsapp").value;
+        const waName = document.getElementById("waName").value;
+        const linkedinName = document.getElementById("linkedinName").value;
+        const linkedinLink = document.getElementById("linkedinLink").value;
+
+        const fullPhone = ext ? `${phone} Ext. ${ext}` : phone;
+        const waURL = `https://wa.me/${whatsapp.replace(/\D/g, '')}?text=Hi%20${encodeURIComponent(waName)}`;
+
+        const signatureHTML = `
+<table style="width:100%; font-family:Calibri, sans-serif; font-size:11pt; color:rgb(0, 0, 0); border-collapse:collapse">
+  <tbody>
+    <tr>
+      <td style="vertical-align:top; border-right:1px solid rgb(0, 0, 0); padding-right:5px; width:0%; min-width:145px; max-width:160px">
+        <div style="font-weight:bold">${sigName}<br></div>
+        <div style="white-space:normal">${designation}<br></div>
+        <div style="margin-top:8px">
+          <img style="min-width:130px; max-width:149px; height:auto; display:block" alt="Genedrift" src="https://cdn.jsdelivr.net/gh/Sohanlalkush/mail-sign/img/Glogo.png">
+        </div>
+      </td>
+      <td style="padding-left:15px; vertical-align:top; width:65%">
+        <div style="margin-bottom:6px">
+          <a target="_blank" style="color:rgb(0, 0, 0); text-decoration:none" href="mailto:${email}">
+            <img style="vertical-align:middle; margin-right:5px" height="15" width="15" alt="Email" src="https://cdn.jsdelivr.net/gh/Sohanlalkush/mail-sign/img/ml.png">
+            ${email}
+          </a><br>
+        </div>
+        <div style="margin-bottom:6px">
+          <a target="_blank" style="color:rgb(0, 0, 0); text-decoration:none" href="tel:${phone}">
+            <img style="vertical-align:middle; margin-right:5px" height="15" width="15" alt="Phone" src="https://cdn.jsdelivr.net/gh/Sohanlalkush/mail-sign/img/phn.png">
+            ${fullPhone}
+          </a><br>
+        </div>
+        <div style="margin-bottom:6px">
+          <a style="color:rgb(0, 0, 0); text-decoration:none" target="_blank" href="${waURL}">
+            <img style="vertical-align:middle; margin-right:5px" height="15" width="15" alt="WhatsApp" src="https://cdn.jsdelivr.net/gh/Sohanlalkush/mail-sign/img/whatsaap.png">
+            ${whatsapp}
+          </a><br>
+        </div>
+        <div>
+          <a style="color:rgb(0, 0, 0); text-decoration:none" target="_blank" href="${linkedinLink}">
+            <img style="vertical-align:middle; margin-right:5px" height="15" width="15" alt="LinkedIn" src="https://cdn.jsdelivr.net/gh/Sohanlalkush/mail-sign/img/Linikediin.png">
+            ${linkedinName}
+          </a><br>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table style="width:100%; font-family:Calibri, sans-serif; font-size:11pt; color:rgb(0, 0, 0); border-top:1px solid rgb(0, 0, 0); margin-top:10px; padding-top:10px">
+  <tbody>
+    <tr>
+      <td style="min-width:25px; max-width:40px; vertical-align:top">
+        <a style="text-decoration:none; font-weight:bold" target="_blank" href="https://www.genedrift.com">
+          <span style="color:rgb(51, 51, 255)">www.genedrift.com</span>
+        </a><br>
+      </td>
+      <td>
+        <a style="text-decoration:none" target="_blank" href="https://in.linkedin.com/company/genedrift">
+          <img style="vertical-align:middle" height="22" width="26" alt="LinkedIn" src="https://cdn.jsdelivr.net/gh/Sohanlalkush/mail-sign/img/Linikediin.png">
+        </a>
+        <a style="text-decoration:none" target="_blank" href="${waURL}">
+          <img style="vertical-align:middle" height="22" width="26" alt="WhatsApp" src="https://cdn.jsdelivr.net/gh/Sohanlalkush/mail-sign/img/whatsaap.png">
+        </a>
+        <a style="text-decoration:none" target="_blank" href="https://www.facebook.com/genedrift">
+          <img style="vertical-align:middle" height="22" width="26" alt="Facebook" src="https://cdn.jsdelivr.net/gh/Sohanlalkush/mail-sign/img/facebook.png">
+        </a><br>
+      </td>
+    </tr>
+  </tbody>
+</table>`;
+
+        outputHTML.value = signatureHTML;
+        outputContainer.style.display = "block";
+    });
+
+    function copySignature() {
+        outputHTML.select();
+        document.execCommand("copy");
+        alert("Signature HTML copied to clipboard!");
+    }
+</script>
+</body>
+</html>
